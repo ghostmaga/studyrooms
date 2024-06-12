@@ -1,0 +1,82 @@
+﻿{% extends 'main.html' %}
+
+{% block content %}
+
+<style>
+     .room-container {
+          display: grid;
+          grid-template-columns: 3fr 1fr;
+     }
+</style>
+
+     <BR><BR></BR></BR>
+     <hr>
+     {% if request.user == room.host %}
+     <div>
+          <a href="{% url 'updateroom' room.id %}">Update room info</a>
+          <a href="{% url 'delete' room.id %}" style="margin-left: 10;"> Delete </a>
+     </div>
+     <hr>
+     {% endif %}
+
+<div class="room-container">
+     
+     <div class="room-page">
+         
+          <h3> <a href="{{ request.META.HTTP_REFERER }}"><--</a>    Study Room </h3> 
+          <div> 
+               <h3>{{room.name}}</h3> 
+               <p style="color: blue;">Created {{ room.created|timesince }} ago</p> 
+               <p style="color: blue;">Hosted by <span style="color: brown;">@{{ room.host.username }}</span> </p>
+          </div>
+
+          <div class="row">
+               <div>
+                    <p>{{room.description}}</p>
+               </div>
+          </div>
+          <div>
+               <div>
+                         
+
+                         <div class="comment">
+                              <hr>
+                              {% for message in roommessages %}
+                                   <div>
+                                        {% if request.user == message.user %}
+                                             <a href="{% url 'editcomment' message.id %}">Edit</a>
+                                             <a href="{% url 'deletecomment' message.id %}">Delete</a>
+                                        {% endif %}
+                                        <p>@{{message.user.username}}    at {{message.created|date:"d.m.y H:i"}}</p> 
+
+                                        <p>{{message.body}}</p>
+                                        <hr>
+                                   </div>
+                              {% endfor %}
+                         </div>
+                         {% if user.is_authenticated %}
+                              <div class="comment-form">
+                                   <form action="" method="post">
+                                        {% csrf_token %}
+                                        <textarea name="commentbody" rows="3" cols="50" placeholder="Write your comment here..."></textarea>
+                                        <input type="submit" value="Add comment">
+                                   </form>
+                              </div>
+                         {% endif %}
+               </div>
+          </div>
+     </div>
+
+     <div>
+          <h3>Participants</h3>
+          <hr>
+          <div style="background-color: aqua;">
+               {% for participant in participants %}
+                    <div style="padding-top: 8; padding-left: 12;">
+                         <a href="">{{participant.username}}</a>
+                    </div>
+               {% endfor %}
+          </div>
+     </div>
+</div>
+{% endblock %}

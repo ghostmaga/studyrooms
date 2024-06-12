@@ -1,0 +1,19 @@
+﻿{% extends 'main.html' %}
+{% block content %}
+    
+<h1>Room Form</h1>
+<div>
+     <form method="post", action="">
+        {% csrf_token %}
+        {{form.as_p}}
+        
+        {% if type == "create"   %}
+            <input type="submit" value="Add new room">
+        {% else %}
+            <input type="submit" value="Update room">
+        {% endif %}
+
+     </form>
+</div>
+
+{% endblock %}

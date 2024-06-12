@@ -1,0 +1,44 @@
+﻿{% extends 'main.html' %}
+
+{% block content %}
+
+<style>
+     .home-container {
+          display: grid;
+          /* place-items: center; */
+          grid-template-columns: 1fr 3fr 1fr;
+     }
+</style>
+
+<div class="home-container" style="padding-top: 20;">
+
+     <div style="background-color: aqua;">
+          {% include 'base/topics_comp.html'%}
+     </div>
+
+     <div style="padding-left: 20; padding-right: 20;"> 
+          <h1>Home Page</h1>
+          <h3>Welcome to the Study Rooms!</h3>
+          <p>Total {{rooms_count}} study rooms</p>
+
+          <form method="get" action="{% url 'home' %}">
+               <label for="q">Search</label>
+               <input type="text" name="q">
+          </form>
+          <hr>
+
+          <div>
+               <form action="{% url 'newroom' %}">
+                    <input type="submit" value="Create new room" />
+                </form>
+          </div>
+          <hr>
+
+          {% include 'base/feed_comp.html' %}  
+     </div>
+     <div style="background-color: aqua;">
+          {% include 'base/activity_comp.html' %}
+     </div>
+
+</div>
+{% endblock %}
